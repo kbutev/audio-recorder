@@ -42,11 +42,11 @@ public class AppRater {
     }
 
     // Wait at least n days before opening
-    if (launchCount >= LAUNCHES_UNTIL_PROMPT
-        && (System.currentTimeMillis()
-            >= firstLaunchTime + (DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000))) {
-      showRateDialog(context);
-    }
+    //if (launchCount >= LAUNCHES_UNTIL_PROMPT
+    //    && (System.currentTimeMillis()
+    //        >= firstLaunchTime + (DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000))) {
+    //  showRateDialog(context);
+    //}
   }
 
   private static void showRateDialog(final Context context) {

@@ -13,15 +13,6 @@
         android:summary="@string/pref_request_filename_summary"
         android:title="@string/pref_request_filename_title" />
 
-    <androidx.preference.ListPreference
-        android:defaultValue="@string/audio_quality_normal"
-        android:dialogTitle="@string/pref_list_audio_quality_dialog_title"
-        android:entries="@array/entries_list_preference"
-        android:entryValues="@array/entries_list_preference"
-        android:key="list_audio_quality"
-        android:summary="%s"
-        android:title="@string/pref_list_audio_quality_title" />
-
     <com.wirehall.audiorecorder.setting.pathpref.PathPreference
         android:key="recording_storage_path"
         android:title="@string/pref_recording_storage_path_title" />

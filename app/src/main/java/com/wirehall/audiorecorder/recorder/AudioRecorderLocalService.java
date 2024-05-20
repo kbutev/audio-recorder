@@ -31,6 +31,10 @@ import java.io.IOException;
 import static com.wirehall.audiorecorder.App.CHANNEL_ID;
 
 public class AudioRecorderLocalService extends Service {
+
+  public static final int HIGH_QUALITY_ENCODING_BIT_RATE = 16*44100;
+  public static final int HIGH_QUALITY_SAMPLING_RATE = 44100;
+
   public static final String EVENT_RECORDER_STATE_CHANGE = "EVENT_RECORDER_STATE_CHANGE";
   public static final String FLAG_IS_DISCARD_RECORDING = "FLAG_IS_DISCARD_RECORDING";
   public static final String KEY_RECORDING_FILE_PATH = "KEY_RECORDING_FILE_PATH";
@@ -143,22 +147,18 @@ public class AudioRecorderLocalService extends Service {
   private boolean startRecording(Context context) {
     try {
       String recordingStoragePath = FileUtils.getRecordingStoragePath(context);
-      recordingFilePath = recordingStoragePath + '/' + FileUtils.generateFileName();
+      recordingFilePath = recordingStoragePath + '/' + FileUtils.generateDefaultFileName();
       Log.d(TAG, "Recording Path: " + recordingFilePath);
 
       mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-      mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
       String audioQualityNormal = context.getResources().getString(R.string.audio_quality_normal);
       String audioQualityPref =
           sharedPref.getString(SettingActivity.KEY_PREF_LIST_AUDIO_QUALITY, audioQualityNormal);
-      if (audioQualityPref != null && audioQualityPref.equals(audioQualityNormal)) {
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        mediaRecorder.setAudioSamplingRate(8000);
-      } else {
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
-        mediaRecorder.setAudioSamplingRate(16000);
-      }
+      mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+      mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+      mediaRecorder.setAudioEncodingBitRate(HIGH_QUALITY_ENCODING_BIT_RATE);
+      mediaRecorder.setAudioSamplingRate(HIGH_QUALITY_SAMPLING_RATE);
       mediaRecorder.setOutputFile(recordingFilePath);
       mediaRecorder.prepare();
       mediaRecorder.start();

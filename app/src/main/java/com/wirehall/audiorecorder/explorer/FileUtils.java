@@ -29,18 +29,22 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class FileUtils {
-  public static final String DEFAULT_REC_FILENAME_EXTENSION = ".3gp";
+  public static final String DEFAULT_REC_FILENAME_EXTENSION = ".m4a";
   private static final String TAG = FileUtils.class.getName();
-  private static final String DEFAULT_REC_FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss";
+  private static final String DEFAULT_REC_FILENAME_FORMAT = "yyyy.MM.dd HH-mm";
 
   private FileUtils() {
     throw new IllegalStateException("Utility class");
   }
 
   /** @return The current time string in "yyyy-MM-dd-HH-mm-ss" format */
-  public static String generateFileName() {
+  public static String generateDateString() {
     SimpleDateFormat df = new SimpleDateFormat(DEFAULT_REC_FILENAME_FORMAT, Locale.getDefault());
-    return df.format(Calendar.getInstance().getTime()).concat(DEFAULT_REC_FILENAME_EXTENSION);
+    return df.format(Calendar.getInstance().getTime());
+  }
+
+  public static String generateDefaultFileName() {
+    return generateDateString().concat(DEFAULT_REC_FILENAME_EXTENSION);
   }
 
   /**

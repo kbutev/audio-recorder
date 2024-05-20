@@ -63,10 +63,20 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
           }
           dismiss();
         });
+
+    editText.setText(getDefaultFieldText());
   }
 
   public Recording getRenamedRecording() {
     return recording;
+  }
+
+  public String getDefaultFieldText() {
+    return generateDateString();
+  }
+
+  public String generateDateString() {
+      return FileUtils.generateDateString();
   }
 
   @Override
