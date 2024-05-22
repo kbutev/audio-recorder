@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,9 @@ public class FileListFragment extends Fragment {
   private static final String TAG = FileListFragment.class.getName();
   private FileListFragmentListener context;
   private FileListAdapter fileListAdapter;
+  private TextView empty_list_label;
+
+  private List<Recording> recordings;
 
   /** @return The singleton instance of FileListFragment */
   public static FileListFragment newInstance() {
@@ -42,24 +46,44 @@ public class FileListFragment extends Fragment {
   @Override
   public View onCreateView(
       @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    FragmentActivity activity = getActivity();
+    if (activity != null) {
+      empty_list_label = activity.findViewById(R.id.tv_empty_list_message);
+    }
+
     return inflater.inflate(R.layout.file_list_fragment, container, false);
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    setup();
+  }
+
+  public void setup() {
     String recordingStoragePath = FileUtils.getRecordingStoragePath(getContext());
-    List<Recording> recordings =
-        FileUtils.getAllFilesFromDirectory(
-            getContext(), recordingStoragePath, new FileExtensionFilter());
+    recordings =
+            FileUtils.getAllFilesFromDirectory(
+                    getContext(), recordingStoragePath, new FileExtensionFilter());
 
     RecyclerView recyclerView = requireActivity().findViewById(R.id.recycler_view);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
     recyclerView.setLayoutManager(linearLayoutManager);
-    RecyclerViewClickListener recyclerViewClickListener =
-        (v, position) -> context.onFileItemClicked(recordings.get(position));
-    fileListAdapter = new FileListAdapter(getContext(), recordings, recyclerViewClickListener);
+    FileBrowserOperationsListener fileBrowserOperationsListener = new FileBrowserOperationsListener() {
+      @Override
+      public void onClick(View view, int position) {
+        onItemClick(position);
+      }
+
+      @Override
+      public void onDelete(int position) {
+        onItemDelete(position);
+      }
+    };
+
+    fileListAdapter = new FileListAdapter(getContext(), recordings, fileBrowserOperationsListener);
     recyclerView.setAdapter(fileListAdapter);
+    updateEmptyLabel();
   }
 
   /** Refresh the file list view by updating the adapter associated with it */
@@ -75,7 +99,7 @@ public class FileListFragment extends Fragment {
                 final List<Recording> recordings =
                     FileUtils.getAllFilesFromDirectory(
                         getContext(), recordingStoragePath, new FileExtensionFilter());
-                activity.runOnUiThread(() -> fileListAdapter.updateData(recordings));
+                activity.runOnUiThread(() -> updateData(recordings));
               }
             } catch (Exception e) {
               Log.e(TAG, e.getMessage());
@@ -85,9 +109,27 @@ public class FileListFragment extends Fragment {
     thread.start();
   }
 
+  public void updateData(List<Recording> recordings) {
+    this.recordings = recordings;
+    fileListAdapter.updateData(recordings);
+    updateEmptyLabel();
+  }
+
+  public void updateEmptyLabel() {
+    empty_list_label.setVisibility(recordings.isEmpty() ? View.VISIBLE : View.GONE);
+  }
+
   /** Clears any row selection */
   public void resetRowSelection() {
     fileListAdapter.resetRowSelection();
+  }
+
+  private void onItemClick(int position) {
+    context.onFileItemClicked(recordings.get(position));
+  }
+
+  private void onItemDelete(int position) {
+    setup();
   }
 
   /** Interface used to invoke the file item's click handler from activity */

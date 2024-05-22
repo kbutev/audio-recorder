@@ -35,16 +35,16 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
   private static final String TAG = FileListAdapter.class.getName();
   private final List<Recording> recordings;
   private final Context context;
-  private final RecyclerViewClickListener recyclerViewClickListener;
+  private final FileBrowserOperationsListener fileBrowserOperationsListener;
   private int selectedRowPosition = RecyclerView.NO_POSITION;
 
   FileListAdapter(
       Context context,
       List<Recording> recordings,
-      RecyclerViewClickListener recyclerViewClickListener) {
+      FileBrowserOperationsListener fileBrowserOperationsListener) {
     this.context = context;
     this.recordings = recordings;
-    this.recyclerViewClickListener = recyclerViewClickListener;
+    this.fileBrowserOperationsListener = fileBrowserOperationsListener;
   }
 
   @NonNull
@@ -52,7 +52,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
     LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
     View view = layoutInflater.inflate(R.layout.file_row_layout, parent, false);
-    return new ViewHolder(view, recyclerViewClickListener);
+    return new ViewHolder(view, fileBrowserOperationsListener);
   }
 
   @Override
@@ -112,12 +112,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private final TextView fileDurationTextView;
     private final ImageButton filePlayPauseButton;
     private final ImageButton fileOptionsMenuButton;
-    private final RecyclerViewClickListener recyclerViewClickListener;
+    private final FileBrowserOperationsListener fileBrowserOperationsListener;
 
     private ViewHolder(
-        @NonNull View itemView, RecyclerViewClickListener recyclerViewClickListener) {
+        @NonNull View itemView, FileBrowserOperationsListener fileBrowserOperationsListener) {
       super(itemView);
-      this.recyclerViewClickListener = recyclerViewClickListener;
+      this.fileBrowserOperationsListener = fileBrowserOperationsListener;
       RelativeLayout fileInfoAreaView = itemView.findViewById(R.id.rl_file_info_area);
       fileInfoAreaView.setOnClickListener(this);
 
@@ -272,13 +272,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         selectedRowPosition = RecyclerView.NO_POSITION;
       }
       notifyItemRemoved(adapterPosition);
+
+      fileBrowserOperationsListener.onDelete(adapterPosition);
     }
 
     @Override
     public void onClick(View view) {
       int position = getBindingAdapterPosition();
       refreshRowSelection(position);
-      recyclerViewClickListener.onClick(view, position);
+      fileBrowserOperationsListener.onClick(view, position);
     }
   }
 }

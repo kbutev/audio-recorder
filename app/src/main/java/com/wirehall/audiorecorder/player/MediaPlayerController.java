@@ -57,6 +57,7 @@ public class MediaPlayerController {
     View playFragment = activity.findViewById(R.id.player_fragment);
     final TextView timerTextView = playFragment.findViewById(R.id.tv_timer);
     final SeekBar seekBar = playFragment.findViewById(R.id.sb_mp_seek_bar);
+
     seekBar.setEnabled(false);
     activity.runOnUiThread(
         new Runnable() {

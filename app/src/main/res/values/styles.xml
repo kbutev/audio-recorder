@@ -16,8 +16,8 @@
     </style>
 
     <style name="BottomNavigation">
-        <item name="android:background">@color/colorAccent</item>
-        <item name="itemBackground">@color/colorAccent</item>
+        <item name="android:background">@color/colorNavigationBG</item>
+        <item name="itemBackground">@color/colorNavigationBG</item>
         <item name="itemTextColor">@animator/tab_selector</item>
     </style>
 

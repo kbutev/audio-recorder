@@ -2,10 +2,11 @@
 <resources>
     <color name="about_app_icon_image_bg">#FFFFFF</color>
 
-    <color name="colorAccent">#EFECEC</color>
+    <color name="colorAccent">#000000</color>
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimaryLight">#FFFFFF</color>
+    <color name="colorNavigationBG">#FBFBFB</color>
     <color name="colorTextPrimary">#000000</color>
     <color name="transparent">#00FFFFFF</color>
 
