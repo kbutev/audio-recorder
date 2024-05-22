@@ -15,12 +15,18 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="BottomNavigation">
+        <item name="android:background">@color/colorAccent</item>
+        <item name="itemBackground">@color/colorAccent</item>
+        <item name="itemTextColor">@animator/tab_selector</item>
+    </style>
+
     <style name="MySeekBar" parent="@style/Widget.AppCompat.SeekBar">
         <item name="colorAccent">@color/color_seek_bar_progress
         </item> <!--Workaround for lower apis that uses only colorAccent for seek-bar thumb -->
     </style>
 
-    <style name="Theme.AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Theme.AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

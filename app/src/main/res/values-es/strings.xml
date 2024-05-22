@@ -2,6 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xliff="urn: oasis: names: tc: xliff: document: 1.2">
     <string name="about">Acerca de</string>
     <string name="app_name">Grabador de audio</string>
+    <string name="record_tab">Record</string>
+    <string name="play_tab">Play</string>
     <string name="audio_quality_high">Alto</string>
     <string name="audio_quality_normal">Normal</string>
     <string name="btn_stop_recording">detener la grabación</string>

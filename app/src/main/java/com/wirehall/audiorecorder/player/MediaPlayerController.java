@@ -5,11 +5,15 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wirehall.audiorecorder.R;
 import com.wirehall.audiorecorder.explorer.FileListFragment;
 import com.wirehall.audiorecorder.explorer.model.Recording;
@@ -27,6 +31,8 @@ public class MediaPlayerController {
   private MediaPlayer mediaPlayer;
   private MediaPlayer.OnCompletionListener mPlayerOnCompletionListener;
   private Recording currentRecording = null;
+
+  private BottomNavigationView navigationView;
 
   private MediaPlayerController() {
     // Private Constructor
@@ -46,8 +52,11 @@ public class MediaPlayerController {
    * @param activity Activity required for internal operations
    */
   public void init(final AppCompatActivity activity) {
-    final TextView timerTextView = activity.findViewById(R.id.tv_timer);
-    final SeekBar seekBar = activity.findViewById(R.id.sb_mp_seek_bar);
+    navigationView = activity.findViewById(R.id.navigation);
+
+    View playFragment = activity.findViewById(R.id.player_fragment);
+    final TextView timerTextView = playFragment.findViewById(R.id.tv_timer);
+    final SeekBar seekBar = playFragment.findViewById(R.id.sb_mp_seek_bar);
     seekBar.setEnabled(false);
     activity.runOnUiThread(
         new Runnable() {
@@ -112,6 +121,7 @@ public class MediaPlayerController {
         mediaPlayer.pause();
         currentRecording = newRecording;
         newRecording.setPlaying(false);
+        onPlayerStopped();
         return;
       } else if (!mediaPlayer.isPlaying()
           && mediaPlayer.getCurrentPosition() > 1
@@ -119,6 +129,7 @@ public class MediaPlayerController {
         mediaPlayer.start();
         currentRecording = newRecording;
         newRecording.setPlaying(true);
+        onPlayerStarted();
         return;
       } else {
         currentRecording = newRecording;
@@ -137,6 +148,8 @@ public class MediaPlayerController {
       mediaPlayer.start();
       newRecording.setPlaying(true);
       setMPVisualizerView(activity);
+      onPlayerStarted();
+
 
     } catch (IllegalArgumentException e) {
       Log.e(TAG, "ERROR: IllegalArgumentException: " + e.getMessage());
@@ -177,6 +190,8 @@ public class MediaPlayerController {
     if (fileListFragment != null) {
       fileListFragment.resetRowSelection();
     }
+
+    onPlayerStopped();
   }
 
   /** Release the media player instance */
@@ -194,13 +209,26 @@ public class MediaPlayerController {
   }
 
   private void setMPVisualizerView(AppCompatActivity activity) {
+    FragmentManager manager = activity.getSupportFragmentManager();
     VisualizerFragment visualizerFragment =
-        (VisualizerFragment)
-            activity
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.visualizer_fragment_container);
+            (VisualizerFragment) manager.findFragmentById(R.id.visualizer_fragment_player_container);
     if (visualizerFragment != null) {
       visualizerFragment.setMPVisualizerView();
+    }
+  }
+
+  private void onPlayerStarted() {
+    enableNavigationBar(false);
+  }
+
+  private void onPlayerStopped() {
+    enableNavigationBar(true);
+  }
+
+  private void enableNavigationBar(boolean enable) {
+    Menu menu = navigationView.getMenu();
+    for (int i = 0; i < menu.size(); i++) {
+      menu.getItem(i).setEnabled(enable);
     }
   }
 

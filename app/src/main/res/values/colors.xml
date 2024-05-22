@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <color name="about_app_icon_image_bg">#dfdfdf</color>
+    <color name="about_app_icon_image_bg">#FFFFFF</color>
 
-    <color name="colorAccent">#001111</color>
+    <color name="colorAccent">#EFECEC</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryLight">#FFFFFF</color>
+    <color name="colorTextPrimary">#000000</color>
+    <color name="transparent">#00FFFFFF</color>
 
-    <color name="colorPrimary">#444444</color>
-
-    <color name="colorPrimaryDark">#303030</color>
-
-    <color name="colorPrimaryLight">#A3A3A3</color>
-
-    <color name="colorTextPrimary">#FFFFFF</color>
-
-    <color name="color_app_bg">@color/colorPrimaryDark</color>
+    <color name="color_app_bg">@color/colorPrimaryLight</color>
     <color name="color_file_button_bg">#f8303030</color>
     <color name="color_file_row_selection">@color/colorPrimaryLight</color>
     <color name="color_hyperlink">#6D6DFF</color>
-    <color name="color_seek_bar_line">#FFFFFF</color>
+    <color name="color_seek_bar_bg">#EFECEC</color>
+    <color name="color_seek_bar_line">#03A9F4</color>
     <color name="color_seek_bar_line_disabled">@color/colorPrimary</color>
     <color name="color_seek_bar_progress">#fc4c1b</color>
     <color name="color_text_filename">@color/colorTextPrimary</color>
     <color name="color_text_timer">@color/colorTextPrimary</color>
     <color name="color_visualizer_view">#FFFFFF</color>
+    <color name="visualizer_background">#DEF5FF</color>
 
     <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="tab_selected_text_color">#46A14A</color>
+    <color name="tab_unselected_text_color">#0C0C0C</color>
+
+
 </resources>

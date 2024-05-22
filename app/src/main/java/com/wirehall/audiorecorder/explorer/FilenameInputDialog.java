@@ -2,6 +2,7 @@ package com.wirehall.audiorecorder.explorer;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.wirehall.audiorecorder.R;
 import com.wirehall.audiorecorder.explorer.model.Recording;
@@ -22,9 +24,15 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
   private final String filePath;
   private Recording recording;
 
+  private DialogInterface.OnDismissListener onSuccessDismissListener;
+
   public FilenameInputDialog(Context context, String filePath) {
     super(context);
     this.filePath = filePath;
+  }
+
+  public void setOnSuccessDismissListener(DialogInterface.OnDismissListener listener) {
+    this.onSuccessDismissListener = listener;
   }
 
   @Override
@@ -62,6 +70,7 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
             Log.e(TAG, e.getMessage());
           }
           dismiss();
+          onSuccessDismissListener.onDismiss(this);
         });
 
     editText.setText(getDefaultFieldText());

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.wirehall.audiorecorder.R;
@@ -143,11 +145,10 @@ public class RecordingController {
 
   private void mapUIToState(AppCompatActivity activity) {
     ImageButton btnRecordPause;
-    ImageButton btnDelete;
     ImageButton btnStop;
-    btnRecordPause = activity.findViewById(R.id.ib_record);
-    btnDelete = activity.findViewById(R.id.ib_delete);
-    btnStop = activity.findViewById(R.id.ib_stop);
+    View recordingFragment = activity.findViewById(R.id.recorder_fragment);
+    btnRecordPause = recordingFragment.findViewById(R.id.ib_record);
+    btnStop = recordingFragment.findViewById(R.id.ib_stop);
 
     switch (AudioRecorderLocalService.mediaRecorderState) {
       case RECORDING:
@@ -161,7 +162,6 @@ public class RecordingController {
         }
 
         btnStop.setEnabled(true);
-        btnDelete.setEnabled(true);
         addRecorderVisualizerView(activity);
         break;
       case RESUMED:
@@ -170,7 +170,6 @@ public class RecordingController {
             ContextCompat.getDrawable(activity, R.drawable.ic_pause_white));
         btnRecordPause.setEnabled(true);
         btnStop.setEnabled(true);
-        btnDelete.setEnabled(true);
         addRecorderVisualizerView(activity);
         break;
       case PAUSED:
@@ -183,14 +182,13 @@ public class RecordingController {
         btnRecordPause.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_mic));
         btnRecordPause.setEnabled(true);
         btnStop.setEnabled(false);
-        btnDelete.setEnabled(false);
 
         resetRunnable();
         VisualizerFragment visualizerFragment =
             (VisualizerFragment)
                 activity
                     .getSupportFragmentManager()
-                    .findFragmentById(R.id.visualizer_fragment_container);
+                    .findFragmentById(R.id.visualizer_fragment_recorder_container);
         if (visualizerFragment != null) {
           visualizerFragment.getRecorderVisualizerView().clear();
         }
@@ -216,7 +214,7 @@ public class RecordingController {
         (VisualizerFragment)
             activity
                 .getSupportFragmentManager()
-                .findFragmentById(R.id.visualizer_fragment_container);
+                .findFragmentById(R.id.visualizer_fragment_recorder_container);
     if (visualizerFragment != null
         && (!(visualizerFragment.getCurrentView() instanceof RecorderVisualizerView)
             || visualizerRunnable == null)) {
@@ -271,7 +269,7 @@ public class RecordingController {
 
   public void launchAskForFilenameDialog(
       final AppCompatActivity activity, final String recordingFilePath) {
-    DialogInterface.OnDismissListener onDismissListener =
+    DialogInterface.OnDismissListener completion =
         dialog -> {
           refreshFileListView(activity);
           Toast.makeText(
@@ -281,7 +279,7 @@ public class RecordingController {
               .show();
         };
     FilenameInputDialog filenameInputDialog = new FilenameInputDialog(activity, recordingFilePath);
-    filenameInputDialog.setOnDismissListener(onDismissListener);
+    filenameInputDialog.setOnSuccessDismissListener(completion);
     filenameInputDialog.show();
   }
 }

@@ -2,7 +2,7 @@
 <resources>
     <dimen name="distance_standard_dialog">8dp</dimen>
 
-    <dimen name="height_recorder_container">80dp</dimen>
+    <dimen name="height_recorder_container">180dp</dimen>
     <dimen name="height_vis_and_timer_container">80dp</dimen>
 
     <dimen name="margin_recorder_secondary_button">20dp</dimen>
@@ -21,8 +21,8 @@
     <dimen name="size_file_info_text_view">15sp</dimen>
     <dimen name="size_file_menu">20sp</dimen>
     <dimen name="size_rate_dialog_info">20sp</dimen>
-    <dimen name="size_recorder_primary_button">60dp</dimen>
-    <dimen name="size_recorder_secondary_button">50dp</dimen>
+    <dimen name="size_recorder_primary_button">80dp</dimen>
+    <dimen name="size_recorder_secondary_button">60dp</dimen>
     <dimen name="size_standard_min_height">48dp</dimen>
     <dimen name="size_text_file_row_footer">10sp</dimen>
     <dimen name="size_text_file_row_header">15sp</dimen>

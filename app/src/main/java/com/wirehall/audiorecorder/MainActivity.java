@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -25,11 +26,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.wirehall.audiorecorder.explorer.FileListFragment;
 import com.wirehall.audiorecorder.explorer.model.Recording;
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity
 
   public static final String KEY_PREF_RECORDING_STORAGE_PATH = "recording_storage_path";
   private static final String TAG = MainActivity.class.getName();
+
+  private BottomNavigationView navigationView;
 
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity
                   switch (mediaRecState) {
                     case RECORDING:
                       recordingController.onRecordingStarted(MainActivity.this);
+                      enableNavigationBar(false);
                       break;
                     case RESUMED:
                       recordingController.onRecordingResumed(MainActivity.this);
@@ -97,10 +103,12 @@ public class MainActivity extends AppCompatActivity
                     case STOPPED:
                       recordingController.onRecordingStopped(
                           MainActivity.this, false, recordingFilePath);
+                      enableNavigationBar(true);
                       break;
                     case DISCARDED:
                       recordingController.onRecordingStopped(
                           MainActivity.this, true, recordingFilePath);
+                      enableNavigationBar(true);
                       break;
                     default:
                       break;
@@ -128,6 +136,27 @@ public class MainActivity extends AppCompatActivity
         }
       };
 
+  private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
+          = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+      if (item.getItemId() == R.id.record_tab) {
+        findViewById(R.id.recorder_fragment).setVisibility(View.VISIBLE);
+        findViewById(R.id.player_fragment).setVisibility(View.GONE);
+      } else if (item.getItemId() == R.id.play_tab) {
+        findViewById(R.id.player_fragment).setVisibility(View.VISIBLE);
+        findViewById(R.id.recorder_fragment).setVisibility(View.GONE);
+      } else {
+        assert false;
+      }
+
+
+      return true;
+    }
+  };
+
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -137,7 +166,8 @@ public class MainActivity extends AppCompatActivity
 
       FragmentManager fm = getSupportFragmentManager();
       FragmentTransaction ft = fm.beginTransaction();
-      ft.add(R.id.visualizer_fragment_container, VisualizerFragment.newInstance());
+      ft.add(R.id.visualizer_fragment_recorder_container, VisualizerFragment.newInstance());
+      ft.add(R.id.visualizer_fragment_player_container, VisualizerFragment.newInstance());
       ft.commit();
 
       if (!HelperUtils.hasPermissions(getApplicationContext(), RECORD_AUDIO, WRITE_EXTERNAL_STORAGE)) {
@@ -145,6 +175,9 @@ public class MainActivity extends AppCompatActivity
       }
 
       mediaPlayerController.init(this);
+
+      navigationView = findViewById(R.id.navigation);
+      navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
       setDefaultPreferenceValues();
       AppRater.launchIfRequired(this);
@@ -192,15 +225,6 @@ public class MainActivity extends AppCompatActivity
       Log.e(TAG, e.getMessage());
     }
     super.onStart();
-  }
-
-  /** @param view The method is the click handler for recorder delete button */
-  public void deleteBtnClicked(View view) {
-    try {
-      recordingController.stopRecordingViaService(this, true);
-    } catch (Exception e) {
-      Log.e(TAG, e.getMessage());
-    }
   }
 
   /** @param view The method is the click handler for recorder stop button */
@@ -305,5 +329,12 @@ public class MainActivity extends AppCompatActivity
 
     drawerLayout.closeDrawer(GravityCompat.START);
     return false;
+  }
+
+  private void enableNavigationBar(boolean enable) {
+    Menu menu = navigationView.getMenu();
+    for (int i = 0; i < menu.size(); i++) {
+      menu.getItem(i).setEnabled(enable);
+    }
   }
 }

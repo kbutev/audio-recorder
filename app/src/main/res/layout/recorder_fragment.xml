@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/view_segment"
+    android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/visualizer_fragment_recorder_container"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/visualizer_view_segment"
+            android:orientation="vertical"/>
+
+        <ImageButton
+            android:id="@+id/ib_record"
+            android:layout_width="@dimen/size_recorder_primary_button"
+            android:layout_height="@dimen/size_recorder_primary_button"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/recorder_fragment_bottom_space"
+            android:background="@drawable/round_button"
+            android:contentDescription="@string/button_record_description"
+            android:onClick="recordPauseBtnClicked"
+            android:padding="@dimen/padding_ib_rec_stop_del"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_mic" />
+
+        <ImageButton
+            android:id="@+id/ib_stop"
+            android:layout_width="@dimen/size_recorder_secondary_button"
+            android:layout_height="@dimen/size_recorder_secondary_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_above="@id/recorder_fragment_bottom_space"
+            android:background="@drawable/round_button"
+            android:contentDescription="@string/button_delete_description"
+            android:onClick="stopBtnClicked"
+            android:padding="@dimen/padding_ib_rec_stop_del"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_stop_white" />
+
+        <Space
+            android:id="@+id/recorder_fragment_bottom_space"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
