@@ -129,7 +129,8 @@ public class FileListFragment extends Fragment {
   }
 
   private void onItemDelete(int position) {
-    setup();
+    this.recordings = fileListAdapter.getRecordings();
+    updateEmptyLabel();
   }
 
   /** Interface used to invoke the file item's click handler from activity */

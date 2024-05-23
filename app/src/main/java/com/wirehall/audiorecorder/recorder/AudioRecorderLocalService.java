@@ -102,8 +102,7 @@ public class AudioRecorderLocalService extends Service {
       case ACTION_STOP_RECORDING:
         Log.i(TAG, "Received Stop Recording Intent");
         try {
-          boolean isDiscardRecording = intent.getBooleanExtra(FLAG_IS_DISCARD_RECORDING, false);
-          stopRecording(isDiscardRecording);
+          stopRecording();
           broadcastRecorderStateChange();
         } catch (Exception e) {
           Log.e(TAG, e.getMessage());
@@ -198,7 +197,7 @@ public class AudioRecorderLocalService extends Service {
     mediaRecorderState = MediaRecorderState.RESUMED;
   }
 
-  private void stopRecording(boolean isDiscardRecording) {
+  private void stopRecording() {
     if (mediaRecorder != null) {
       try {
         mediaRecorder.stop();
@@ -207,12 +206,9 @@ public class AudioRecorderLocalService extends Service {
       }
       mediaRecorder.reset();
     }
-    if (isDiscardRecording) {
-      FileUtils.deleteFile(recordingFilePath);
-      mediaRecorderState = MediaRecorderState.DISCARDED;
-    } else {
-      mediaRecorderState = MediaRecorderState.STOPPED;
-    }
+
+    mediaRecorderState = MediaRecorderState.STOPPED;
+
     // Reset Timer
     recordingTime.reset();
   }

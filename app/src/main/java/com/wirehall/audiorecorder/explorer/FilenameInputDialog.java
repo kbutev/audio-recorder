@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,32 +49,54 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
     Button okButton = findViewById(R.id.btn_filename_input_dialog_ok);
 
     final EditText editText = findViewById(R.id.et_filename_input_dialog);
+
+    DialogInterface self = this;
+    Handler main = new Handler(Looper.getMainLooper());
+
     okButton.setOnClickListener(
         v -> {
-          try {
-            String newRecordingName = editText.getText().toString();
-            if (newRecordingName.trim().isEmpty()) {
-              editText.setHintTextColor(Color.RED);
-              return;
+          AsyncTask.execute(() -> {
+            try {
+              String newRecordingName = editText.getText().toString();
+              if (newRecordingName.trim().isEmpty()) {
+                editText.setHintTextColor(Color.RED);
+                return;
+              }
+              File sourceFile = new File(filePath);
+              File targetFile =
+                      new File(
+                              sourceFile.getParent(),
+                              newRecordingName + FileUtils.DEFAULT_REC_FILENAME_EXTENSION);
+              if (sourceFile.exists() && sourceFile.renameTo(targetFile)) {
+                recording = new Recording();
+                recording.setName(newRecordingName);
+                recording.setPath(targetFile.getPath());
+              } else {
+                Log.e(TAG, "Problem renaming file: " + filePath + " to: " + newRecordingName);
+              }
+            } catch (Exception e) {
+              Log.e(TAG, e.getMessage());
             }
-            File sourceFile = new File(filePath);
-            File targetFile =
-                new File(
-                    sourceFile.getParent(),
-                    newRecordingName + FileUtils.DEFAULT_REC_FILENAME_EXTENSION);
-            if (sourceFile.exists() && sourceFile.renameTo(targetFile)) {
-              recording = new Recording();
-              recording.setName(newRecordingName);
-              recording.setPath(targetFile.getPath());
-            } else {
-              Log.e(TAG, "Problem renaming file: " + filePath + " to: " + newRecordingName);
-            }
-          } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-          }
-          dismiss();
-          onSuccessDismissListener.onDismiss(this);
+
+            main.post(() -> {
+              dismiss();
+              onSuccessDismissListener.onDismiss(self);
+            });
+          });
         });
+
+    cancelButton.setOnClickListener(
+            v -> {
+              AsyncTask.execute(() -> {
+                try {
+                  FileUtils.deleteFile(filePath);
+                } catch (Exception e) {
+                  Log.e(TAG, e.getMessage());
+                }
+
+                main.post(() -> dismiss());
+              });
+            });
 
     editText.setText(getDefaultFieldText());
   }

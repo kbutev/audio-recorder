@@ -26,6 +26,7 @@
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="tab_selected_text_color">#46A14A</color>
     <color name="tab_unselected_text_color">#0C0C0C</color>
+    <color name="tab_disabled_text_color">#938C8C</color>
 
 
 </resources>

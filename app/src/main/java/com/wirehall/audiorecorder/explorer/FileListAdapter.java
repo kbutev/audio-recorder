@@ -25,6 +25,7 @@ import com.wirehall.audiorecorder.explorer.model.Recording;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -45,6 +46,10 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     this.context = context;
     this.recordings = recordings;
     this.fileBrowserOperationsListener = fileBrowserOperationsListener;
+  }
+
+  public List<Recording> getRecordings() {
+    return new ArrayList<>(recordings);
   }
 
   @NonNull

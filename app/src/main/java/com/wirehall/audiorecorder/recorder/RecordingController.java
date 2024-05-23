@@ -134,12 +134,10 @@ public class RecordingController {
    * Stop the audio recording
    *
    * @param activity Activity required for internal operations
-   * @param isDiscardRecording Indicates if the current active recording needs to be discarded
    */
-  public void stopRecordingViaService(AppCompatActivity activity, boolean isDiscardRecording) {
+  public void stopRecordingViaService(AppCompatActivity activity) {
     Intent serviceIntent = new Intent(activity, AudioRecorderLocalService.class);
     serviceIntent.setAction(ACTION_STOP_RECORDING);
-    serviceIntent.putExtra(AudioRecorderLocalService.FLAG_IS_DISCARD_RECORDING, isDiscardRecording);
     activity.startService(serviceIntent);
   }
 
@@ -163,6 +161,18 @@ public class RecordingController {
 
         btnStop.setEnabled(true);
         addRecorderVisualizerView(activity);
+
+        VisualizerFragment visualizerFragment =
+                (VisualizerFragment)
+                        activity
+                                .getSupportFragmentManager()
+                                .findFragmentById(R.id.visualizer_fragment_recorder_container);
+        if (visualizerFragment != null) {
+          visualizerFragment.getRecorderVisualizerView().clear();
+        }
+        TextView timerTextView = activity.findViewById(R.id.record_timer);
+        timerTextView.setText("");
+
         break;
       case RESUMED:
         // Resumed recording
@@ -184,16 +194,6 @@ public class RecordingController {
         btnStop.setEnabled(false);
 
         resetRunnable();
-        VisualizerFragment visualizerFragment =
-            (VisualizerFragment)
-                activity
-                    .getSupportFragmentManager()
-                    .findFragmentById(R.id.visualizer_fragment_recorder_container);
-        if (visualizerFragment != null) {
-          visualizerFragment.getRecorderVisualizerView().clear();
-        }
-        TextView timerTextView = activity.findViewById(R.id.tv_timer);
-        timerTextView.setText("");
         break;
       default:
         break;
@@ -219,7 +219,7 @@ public class RecordingController {
         && (!(visualizerFragment.getCurrentView() instanceof RecorderVisualizerView)
             || visualizerRunnable == null)) {
       visualizerFragment.setRecorderVisualizerView();
-      TextView timerTextView = activity.findViewById(R.id.tv_timer);
+      TextView timerTextView = activity.findViewById(R.id.record_timer);
       setVisualizerRunnable(
           activity, timerTextView, visualizerFragment.getRecorderVisualizerView());
       handler.post(visualizerRunnable);

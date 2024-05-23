@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity
   /** @param view The method is the click handler for recorder stop button */
   public void stopBtnClicked(View view) {
     try {
-      recordingController.stopRecordingViaService(this, false);
+      recordingController.stopRecordingViaService(this);
     } catch (Exception e) {
       Log.e(TAG, e.getMessage());
     }
