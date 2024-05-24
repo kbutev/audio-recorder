@@ -18,10 +18,12 @@
     <string name="dialog_delete_message">Do you want to delete this recording? <xliff:g id="file_path">%1$s</xliff:g></string>
     <string name="dialog_delete_title">Are you sure?</string>
     <string name="disclaimer">This software is provided \"As Is\" and without any express or implied warranties. The risk of any loss, damage, or unsatisfactory performance of this software rests with you as the user</string>
+    <string name="duration_in_hour_min_sec_long">%d hr, %d min, %d sec</string>
     <string name="duration_in_min_sec_long">%d min, %d sec</string>
     <string name="duration_in_min_sec_short">%1$02d:%2$02d</string>
+    <string name="duration_in_hour_min_sec_short">%1$02d:%2$02d:%3$02d</string>
     <string name="duration_in_sec_long">%d sec</string>
-    <string name="duration_progress_in_min_sec_short">%1$d:%2$02d/%3$d:%4$02d</string>
+    <string name="duration_progress">%s/%s</string>
     <string name="et_hint_filename_input_dialog">Enter Filename Here</string>
     <string name="file_menu_option_delete"><xliff:g id="delete_symbol">✖ </xliff:g>Delete</string>
     <string name="file_menu_option_info"><xliff:g id="info_symbol">ⓘ </xliff:g>Info</string>

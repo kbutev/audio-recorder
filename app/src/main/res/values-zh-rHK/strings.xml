@@ -16,10 +16,12 @@
     <string name="dialog_delete_message">要刪除此錄音嗎 <xliff:g id="file_path">%1$s</xliff:g></string>
     <string name="dialog_delete_title">你確定嗎</string>
     <string name="disclaimer">本軟件按“原樣”提供，不提供任何明示或暗示的保證。作為用戶，您應對此軟件的任何丟失，損壞或不滿的風險負責。</string>
+    <string name="duration_in_hour_min_sec_long">%d hr, %d min, %d sec</string>
     <string name="duration_in_min_sec_long">%d 分鐘，%d 秒</string>
     <string name="duration_in_min_sec_short">%1$02d:%2$02d</string>
+    <string name="duration_in_hour_min_sec_short">%1$02d:%2$02d:%3$02d</string>
     <string name="duration_in_sec_long">%d 秒</string>
-    <string name="duration_progress_in_min_sec_short">%1$d:%2$02d/%3$d:%4$02d</string>
+    <string name="duration_progress">%s/%s</string>
     <string name="et_hint_filename_input_dialog">在此輸入文件名</string>
     <string name="file_menu_option_delete"><xliff:g id="delete_symbol">✖ </xliff:g>刪除</string>
     <string name="file_menu_option_info"><xliff:g id="info_symbol">ⓘ </xliff:g>信息</string>

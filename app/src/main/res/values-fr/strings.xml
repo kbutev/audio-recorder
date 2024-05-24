@@ -18,10 +18,12 @@
     Voulez-vous supprimer cet enregistrement? <xliff:g id="file_path">%1$s</xliff:g></string>
     <string name="dialog_delete_title">Êtes-vous sûr?</string>
     <string name="disclaimer">Ce logiciel est fourni \"en l\'état\" et sans aucune garantie, expresse ou implicite. Le risque de perte, de dommage ou de performances insatisfaisantes de ce logiciel repose sur vous, en tant qu\'utilisateur.</string>
+    <string name="duration_in_hour_min_sec_long">%d hr, %d min, %d sec</string>
     <string name="duration_in_min_sec_long">%d min, %d sec</string>
     <string name="duration_in_min_sec_short">%1$02d:%2$02d</string>
+    <string name="duration_in_hour_min_sec_short">%1$02d:%2$02d:%3$02d</string>
     <string name="duration_in_sec_long">%d sec</string>
-    <string name="duration_progress_in_min_sec_short">%1$d:%2$02d/%3$d:%4$02d</string>
+    <string name="duration_progress">%s/%s</string>
     <string name="et_hint_filename_input_dialog">Entrez le nom du fichier ici</string>
     <string name="file_menu_option_delete"><xliff:g id="delete_symbol">✖ </xliff:g>Supprimer</string>
     <string name="file_menu_option_info"><xliff:g id="info_symbol">ⓘ </xliff:g>Info</string>

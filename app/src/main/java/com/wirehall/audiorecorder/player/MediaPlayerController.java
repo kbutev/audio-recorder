@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wirehall.audiorecorder.R;
 import com.wirehall.audiorecorder.explorer.FileListFragment;
+import com.wirehall.audiorecorder.explorer.FileUtils;
 import com.wirehall.audiorecorder.explorer.model.Recording;
 import com.wirehall.audiorecorder.visualizer.VisualizerFragment;
 
@@ -235,17 +236,8 @@ public class MediaPlayerController {
 
   private String getFormattedTimeString(
       Context context, int currentPosition, int totalMediaDuration) {
-    long currentPositionMinutes = TimeUnit.MILLISECONDS.toMinutes(currentPosition);
-    long currentPositionSeconds = TimeUnit.MILLISECONDS.toSeconds(currentPosition) % 60;
-    long totalMediaDurationMinutes = TimeUnit.MILLISECONDS.toMinutes(totalMediaDuration);
-    long totalMediaDurationSeconds = TimeUnit.MILLISECONDS.toSeconds(totalMediaDuration) % 60;
-    return context
-        .getResources()
-        .getString(
-            R.string.duration_progress_in_min_sec_short,
-            currentPositionMinutes,
-            currentPositionSeconds,
-            totalMediaDurationMinutes,
-            totalMediaDurationSeconds);
+    String current = FileUtils.humanReadableDurationShort(context, currentPosition);
+    String total = FileUtils.humanReadableDurationShort(context, totalMediaDuration);
+    return context.getResources().getString(R.string.duration_progress, current, total);
   }
 }

@@ -16,10 +16,12 @@
     <string name="dialog_delete_message">Vuoi cancellare questa registrazione? <xliff:g id="file_path">%1$s</xliff:g></string>
     <string name="dialog_delete_title">Sei sicuro?</string>
     <string name="disclaimer">Questo software è fornito \"Così com\'è\" e senza garanzie esplicite o implicite. Il rischio di perdite, danni o prestazioni insoddisfacenti di questo software spetta all\'utente come utente</string>
+    <string name="duration_in_hour_min_sec_long">%d hr, %d min, %d sec</string>
     <string name="duration_in_min_sec_long">%d min, %d sec</string>
     <string name="duration_in_min_sec_short">%1$02d:%2$02d</string>
+    <string name="duration_in_hour_min_sec_short">%1$02d:%2$02d:%3$02d</string>
     <string name="duration_in_sec_long">%d sec</string>
-    <string name="duration_progress_in_min_sec_short">%1$d:%2$02d/%3$d:%4$02d</string>
+    <string name="duration_progress">%s/%s</string>
     <string name="et_hint_filename_input_dialog">Inserisci il nome del file qui</string>
     <string name="file_menu_option_delete"><xliff:g id="delete_symbol">✖ </xliff:g>Elimina</string>
     <string name="file_menu_option_info"><xliff:g id="info_symbol">ⓘ </xliff:g>Informazioni</string>

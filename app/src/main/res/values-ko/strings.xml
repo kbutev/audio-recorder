@@ -16,10 +16,12 @@
     <string name="dialog_delete_message">이 녹음을 삭제 하시겠습니까? <xliff:g id="file_path">%1$s</xliff:g></string>
     <string name="dialog_delete_title">확실해?</string>
     <string name="disclaimer">이 소프트웨어는 명시 적 또는 묵시적 보증없이 \"있는 그대로\"제공됩니다. 이 소프트웨어의 손실, 손상 또는 불만족스러운 성능의 위험은 사용자와 함께 제공됩니다</string>
+    <string name="duration_in_hour_min_sec_long">%d hr, %d min, %d sec</string>
     <string name="duration_in_min_sec_long">%d 의사록, %d 초</string>
     <string name="duration_in_min_sec_short">%1$02d:%2$02d</string>
+    <string name="duration_in_hour_min_sec_short">%1$02d:%2$02d:%3$02d</string>
     <string name="duration_in_sec_long">%d 초</string>
-    <string name="duration_progress_in_min_sec_short">%1$d:%2$02d/%3$d:%4$02d</string>
+    <string name="duration_progress">%s/%s</string>
     <string name="et_hint_filename_input_dialog">여기에 파일 이름을 입력하십시오.</string>
     <string name="file_menu_option_delete"><xliff:g id="delete_symbol">✖ </xliff:g>지우다</string>
     <string name="file_menu_option_info"><xliff:g id="info_symbol">ⓘ </xliff:g>정보</string>

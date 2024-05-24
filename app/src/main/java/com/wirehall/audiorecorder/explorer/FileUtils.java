@@ -152,19 +152,22 @@ public class FileUtils {
    *     not then "%d sec" is the format
    */
   public static String humanReadableDurationDetailed(Context context, long duration) {
+    long hours = TimeUnit.MILLISECONDS.toHours(duration);
+    long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+    long seconds = TimeUnit.MILLISECONDS.toSeconds(duration);
 
-    if (TimeUnit.MILLISECONDS.toMinutes(duration) < 1) {
-      long seconds =
-          TimeUnit.MILLISECONDS.toSeconds(duration)
-              - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration));
+    if (seconds < 60) {
       return context.getResources().getString(R.string.duration_in_sec_long, seconds);
     }
 
-    long seconds =
-        TimeUnit.MILLISECONDS.toSeconds(duration)
-            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration));
-    long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-    return context.getResources().getString(R.string.duration_in_min_sec_long, minutes, seconds);
+    seconds -= TimeUnit.MINUTES.toSeconds(minutes);
+
+    if (hours < 1) {
+      return context.getResources().getString(R.string.duration_in_min_sec_long, minutes, seconds);
+    }
+
+    minutes -= TimeUnit.HOURS.toMinutes(hours);
+    return context.getResources().getString(R.string.duration_in_hour_min_sec_long, hours, minutes, seconds);
   }
 
   /**
@@ -173,11 +176,22 @@ public class FileUtils {
    *     not then "%d sec" is the format
    */
   public static String humanReadableDurationShort(Context context, long duration) {
-    long seconds =
-        TimeUnit.MILLISECONDS.toSeconds(duration)
-            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration));
+    long hours = TimeUnit.MILLISECONDS.toHours(duration);
     long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-    return context.getResources().getString(R.string.duration_in_min_sec_short, minutes, seconds);
+    long seconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+
+    if (seconds < 60) {
+      return context.getResources().getString(R.string.duration_in_min_sec_short, 0, seconds);
+    }
+
+    seconds -= TimeUnit.MINUTES.toSeconds(minutes);
+
+    if (hours < 1) {
+      return context.getResources().getString(R.string.duration_in_min_sec_short, minutes, seconds);
+    }
+
+    minutes -= TimeUnit.HOURS.toMinutes(hours);
+    return context.getResources().getString(R.string.duration_in_hour_min_sec_short, hours, minutes, seconds);
   }
 
   public static int measureContentWidth(final Adapter adapter, Context context) {

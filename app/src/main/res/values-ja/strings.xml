@@ -16,10 +16,12 @@
     <string name="dialog_delete_message">この記録を削除しますか？ <xliff:g id="file_path">%1$s</xliff:g></string>
     <string name="dialog_delete_title">本気ですか？</string>
     <string name="disclaimer">このソフトウェアは「現状のまま」提供され、明示的または黙示的な保証はありません。このソフトウェアの損失、損傷、または不満足なパフォーマンスのリスクは、ユーザーとしてあなたにかかっています。</string>
+    <string name="duration_in_hour_min_sec_long">%d hr, %d min, %d sec</string>
     <string name="duration_in_min_sec_long">%d 議事録, %d 秒</string>
     <string name="duration_in_min_sec_short">%1$02d:%2$02d</string>
+    <string name="duration_in_hour_min_sec_short">%1$02d:%2$02d:%3$02d</string>
     <string name="duration_in_sec_long">%d 秒</string>
-    <string name="duration_progress_in_min_sec_short">%1$d:%2$02d/%3$d:%4$02d</string>
+    <string name="duration_progress">%s/%s</string>
     <string name="et_hint_filename_input_dialog">ここにファイル名を入力</string>
     <string name="file_menu_option_delete"><xliff:g id="delete_symbol">✖ </xliff:g>削除する</string>
     <string name="file_menu_option_info"><xliff:g id="info_symbol">ⓘ </xliff:g>情報</string>

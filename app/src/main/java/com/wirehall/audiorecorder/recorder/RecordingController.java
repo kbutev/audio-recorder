@@ -22,6 +22,7 @@ import androidx.preference.PreferenceManager;
 
 import com.wirehall.audiorecorder.R;
 import com.wirehall.audiorecorder.explorer.FileListFragment;
+import com.wirehall.audiorecorder.explorer.FileUtils;
 import com.wirehall.audiorecorder.explorer.FilenameInputDialog;
 import com.wirehall.audiorecorder.setting.SettingActivity;
 import com.wirehall.audiorecorder.visualizer.VisualizerFragment;
@@ -253,13 +254,8 @@ public class RecordingController {
               recorderVisualizerView.invalidate(); // refresh the VisualizerView
 
               long totalRecTime = AudioRecorderLocalService.recordingTime.autoSetTotalRecTime();
-              int secs = (int) (totalRecTime / 1000);
-              int minutes = secs / 60;
-              secs = secs % 60;
-              timerTextView.setText(
-                  context
-                      .getResources()
-                      .getString(R.string.duration_in_min_sec_short, minutes, secs));
+              String text = FileUtils.humanReadableDurationShort(context, totalRecTime);
+              timerTextView.setText(text);
             }
             // update in few milliseconds
             handler.postDelayed(this, 40);
