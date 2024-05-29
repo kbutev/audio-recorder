@@ -31,7 +31,7 @@
             android:text="@string/tv_list_empty"
             android:textColor="@color/color_text_timer"
             android:textSize="@dimen/size_tv_empty_list_message"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progress_indicator"
@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/progress_indicator_background"
             android:visibility="gone" />
 
     </FrameLayout>

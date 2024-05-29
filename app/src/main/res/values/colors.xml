@@ -10,6 +10,8 @@
     <color name="colorTextPrimary">#000000</color>
     <color name="transparent">#00FFFFFF</color>
 
+    <color name="progress_indicator_background">#DEF5FF</color>
+
     <color name="color_app_bg">@color/colorPrimaryLight</color>
     <color name="color_file_button_bg">#f8303030</color>
     <color name="color_file_row_selection">@color/colorPrimaryLight</color>
