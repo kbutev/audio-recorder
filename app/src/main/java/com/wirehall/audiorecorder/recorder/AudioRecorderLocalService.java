@@ -32,11 +32,10 @@ import static com.wirehall.audiorecorder.App.CHANNEL_ID;
 
 public class AudioRecorderLocalService extends Service {
 
-  public static final int HIGH_QUALITY_ENCODING_BIT_RATE = 16*44100;
+  public static final int HIGH_QUALITY_ENCODING_BIT_RATE = 96000;
   public static final int HIGH_QUALITY_SAMPLING_RATE = 44100;
 
   public static final String EVENT_RECORDER_STATE_CHANGE = "EVENT_RECORDER_STATE_CHANGE";
-  public static final String FLAG_IS_DISCARD_RECORDING = "FLAG_IS_DISCARD_RECORDING";
   public static final String KEY_RECORDING_FILE_PATH = "KEY_RECORDING_FILE_PATH";
   public static final String ACTION_START_RECORDING =
       "com.wirehall.audiorecorder.ACTION_START_RECORDING";
@@ -150,10 +149,6 @@ public class AudioRecorderLocalService extends Service {
       Log.d(TAG, "Recording Path: " + recordingFilePath);
 
       mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-      SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-      String audioQualityNormal = context.getResources().getString(R.string.audio_quality_normal);
-      String audioQualityPref =
-          sharedPref.getString(SettingActivity.KEY_PREF_LIST_AUDIO_QUALITY, audioQualityNormal);
       mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
       mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
       mediaRecorder.setAudioEncodingBitRate(HIGH_QUALITY_ENCODING_BIT_RATE);

@@ -83,8 +83,6 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
               dismiss();
               if (onSuccessDismissListener != null) {
                 onSuccessDismissListener.onDismiss(self);
-              } else {
-                Log.e(TAG, "FilenameInputDialog listener was not set properly!");
               }
             });
           });
