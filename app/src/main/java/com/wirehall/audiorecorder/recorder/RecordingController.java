@@ -227,7 +227,7 @@ public class RecordingController {
     }
   }
 
-  private void refreshFileListView(AppCompatActivity activity) {
+  public void refreshFileListView(AppCompatActivity activity) {
     FileListFragment fileListFragment =
         (FileListFragment)
             activity.getSupportFragmentManager().findFragmentById(R.id.list_fragment_container);

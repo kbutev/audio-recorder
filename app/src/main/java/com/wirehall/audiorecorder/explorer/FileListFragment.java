@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.wirehall.audiorecorder.explorer.model.Recording;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileListFragment extends Fragment {
@@ -29,8 +31,11 @@ public class FileListFragment extends Fragment {
   private FileListFragmentListener context;
   private FileListAdapter fileListAdapter;
   private TextView empty_list_label;
+  private ProgressBar progressIndicator;
 
   private List<Recording> recordings;
+
+  private boolean isFetchingData = false;
 
   /** @return The singleton instance of FileListFragment */
   public static FileListFragment newInstance() {
@@ -49,6 +54,7 @@ public class FileListFragment extends Fragment {
     FragmentActivity activity = getActivity();
     if (activity != null) {
       empty_list_label = activity.findViewById(R.id.tv_empty_list_message);
+      progressIndicator = activity.findViewById(R.id.progress_indicator);
     }
 
     return inflater.inflate(R.layout.file_list_fragment, container, false);
@@ -57,14 +63,13 @@ public class FileListFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    setup();
+    setupInitialAdapter();
+    refreshAdapter();
   }
 
-  public void setup() {
-    String recordingStoragePath = FileUtils.getRecordingStoragePath(getContext());
-    recordings =
-            FileUtils.getAllFilesFromDirectory(
-                    getContext(), recordingStoragePath, new FileExtensionFilter());
+  public void setupInitialAdapter() {
+    Log.d(TAG, "FileListFragment - reloadData");
+    recordings = new ArrayList<>();
 
     RecyclerView recyclerView = requireActivity().findViewById(R.id.recycler_view);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -83,11 +88,17 @@ public class FileListFragment extends Fragment {
 
     fileListAdapter = new FileListAdapter(getContext(), recordings, fileBrowserOperationsListener);
     recyclerView.setAdapter(fileListAdapter);
-    updateEmptyLabel();
+    updateStatusIndicators();
   }
 
   /** Refresh the file list view by updating the adapter associated with it */
   public void refreshAdapter() {
+    Log.d(TAG, "FileListFragment - refreshAdapter");
+
+    isFetchingData = true;
+
+    updateStatusIndicators();
+
     Thread thread =
         new Thread() {
           @Override
@@ -110,13 +121,15 @@ public class FileListFragment extends Fragment {
   }
 
   public void updateData(List<Recording> recordings) {
+    isFetchingData = false;
     this.recordings = recordings;
     fileListAdapter.updateData(recordings);
-    updateEmptyLabel();
+    updateStatusIndicators();
   }
 
-  public void updateEmptyLabel() {
-    empty_list_label.setVisibility(recordings.isEmpty() ? View.VISIBLE : View.GONE);
+  public void updateStatusIndicators() {
+    empty_list_label.setVisibility(recordings.isEmpty() && !isFetchingData ? View.VISIBLE : View.GONE);
+    progressIndicator.setVisibility(isFetchingData ? View.VISIBLE : View.GONE);
   }
 
   /** Clears any row selection */
@@ -130,7 +143,7 @@ public class FileListFragment extends Fragment {
 
   private void onItemDelete(int position) {
     this.recordings = fileListAdapter.getRecordings();
-    updateEmptyLabel();
+    updateStatusIndicators();
   }
 
   /** Interface used to invoke the file item's click handler from activity */

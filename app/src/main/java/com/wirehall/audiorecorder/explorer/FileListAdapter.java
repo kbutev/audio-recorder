@@ -1,6 +1,7 @@
 package com.wirehall.audiorecorder.explorer;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -248,15 +250,18 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
       final Recording sourceRecording = recordings.get(adapterPosition);
       final FilenameInputDialog filenameInputDialog =
           new FilenameInputDialog(context, sourceRecording.getPath());
-      filenameInputDialog.setOnDismissListener(
-          dialog -> {
-            Recording renamedRecording = filenameInputDialog.getRenamedRecording();
-            if (renamedRecording != null) {
-              sourceRecording.setName(renamedRecording.getName());
-              sourceRecording.setPath(renamedRecording.getPath());
-              notifyItemChanged(adapterPosition);
-            }
-          });
+
+      DialogInterface.OnDismissListener completion =
+              dialog -> {
+                Recording renamedRecording = filenameInputDialog.getRenamedRecording();
+                if (renamedRecording != null) {
+                  sourceRecording.setName(renamedRecording.getName());
+                  sourceRecording.setPath(renamedRecording.getPath());
+                  notifyItemChanged(adapterPosition);
+                }
+      };
+
+      filenameInputDialog.setOnSuccessDismissListener(completion);
       window.dismiss();
       filenameInputDialog.show();
     }

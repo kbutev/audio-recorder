@@ -20,6 +20,7 @@ import com.wirehall.audiorecorder.R;
 import com.wirehall.audiorecorder.explorer.model.Recording;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 public class FilenameInputDialog extends Dialog implements OnClickListener {
   private static final String TAG = FilenameInputDialog.class.getName();
@@ -80,7 +81,11 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
 
             main.post(() -> {
               dismiss();
-              onSuccessDismissListener.onDismiss(self);
+              if (onSuccessDismissListener != null) {
+                onSuccessDismissListener.onDismiss(self);
+              } else {
+                Log.e(TAG, "FilenameInputDialog listener was not set properly!");
+              }
             });
           });
         });

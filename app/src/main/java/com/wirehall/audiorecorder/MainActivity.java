@@ -175,12 +175,12 @@ public class MainActivity extends AppCompatActivity
       }
 
       mediaPlayerController.init(this);
+      recordingController.refreshFileListView(this);
 
       navigationView = findViewById(R.id.navigation);
       navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
       setDefaultPreferenceValues();
-      AppRater.launchIfRequired(this);
     } catch (Exception e) {
       Log.e(TAG, e.getMessage());
     }
