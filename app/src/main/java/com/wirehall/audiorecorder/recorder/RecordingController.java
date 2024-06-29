@@ -274,7 +274,9 @@ public class RecordingController {
                   Toast.LENGTH_SHORT)
               .show();
         };
-    FilenameInputDialog filenameInputDialog = new FilenameInputDialog(activity, recordingFilePath);
+
+    String initialName = FileUtils.generateDateString();
+    FilenameInputDialog filenameInputDialog = new FilenameInputDialog(activity, recordingFilePath, initialName);
     filenameInputDialog.setOnSuccessDismissListener(completion);
     filenameInputDialog.show();
   }

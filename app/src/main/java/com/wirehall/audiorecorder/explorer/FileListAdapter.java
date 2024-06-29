@@ -26,6 +26,7 @@ import com.wirehall.audiorecorder.R;
 import com.wirehall.audiorecorder.explorer.model.Recording;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -248,8 +249,11 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
       Log.d(TAG, "Clicked on the file row rename option menu");
 
       final Recording sourceRecording = recordings.get(adapterPosition);
+      String path = sourceRecording.getPath();
+      String initialName = FileUtils.removeExtention(Paths.get(path).getFileName().toString());
+
       final FilenameInputDialog filenameInputDialog =
-          new FilenameInputDialog(context, sourceRecording.getPath());
+          new FilenameInputDialog(context, path, initialName);
 
       DialogInterface.OnDismissListener completion =
               dialog -> {

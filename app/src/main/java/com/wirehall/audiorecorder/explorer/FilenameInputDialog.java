@@ -26,13 +26,15 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
   private static final String TAG = FilenameInputDialog.class.getName();
 
   private final String filePath;
+  private final String initialName;
   private Recording recording;
 
   private DialogInterface.OnDismissListener onSuccessDismissListener;
 
-  public FilenameInputDialog(Context context, String filePath) {
+  public FilenameInputDialog(Context context, String filePath, String initialName) {
     super(context);
     this.filePath = filePath;
+    this.initialName = initialName;
   }
 
   public void setOnSuccessDismissListener(DialogInterface.OnDismissListener listener) {
@@ -101,19 +103,11 @@ public class FilenameInputDialog extends Dialog implements OnClickListener {
               });
             });
 
-    editText.setText(getDefaultFieldText());
+    editText.setText(initialName);
   }
 
   public Recording getRenamedRecording() {
     return recording;
-  }
-
-  public String getDefaultFieldText() {
-    return generateDateString();
-  }
-
-  public String generateDateString() {
-      return FileUtils.generateDateString();
   }
 
   @Override

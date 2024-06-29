@@ -254,4 +254,15 @@ public class FileUtils {
   private static File getExternalStorageDirectory() {
     return Environment.getExternalStorageDirectory();
   }
+
+  public static String removeExtention(String filePath) {
+    File f = new File(filePath);
+
+    if (f.isDirectory()) { return f.getName(); }
+    String name = f.getName();
+
+    if (!name.contains(".")) { return name; }
+
+    return name.substring(0, name.lastIndexOf('.'));
+  }
 }
