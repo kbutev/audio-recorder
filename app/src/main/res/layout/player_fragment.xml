@@ -9,12 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/view_segment"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="1">
 
         <FrameLayout
             android:id="@+id/list_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/view_segment"
             android:orientation="vertical"
             android:padding="@dimen/padding_list_fragment_container" />
@@ -43,11 +44,6 @@
             android:visibility="gone" />
 
     </FrameLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
 
     <!--Ignore warning and keep thumbTint in SeekBar as we need this for newer APIs, older APIs already handled in progressDrawable-->
     <SeekBar
